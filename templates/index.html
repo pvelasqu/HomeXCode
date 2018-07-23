@@ -1,12 +1,16 @@
-<div>
-{% for row in results %}
-      <tr>
-         <td>{{ row[0] }}</td>
-          <br>
-          <td>{{ row[1] }}</td>
-          <br>
-          <td>{{ row[2] }}</td>
-          <hr>
-      </tr>
-{% endfor %}
-</div>
+<hierarch_data>
+    {% for key, item in result.items() recursive%}
+        {% if key is string and key != 'Workers' %}
+                {{ key }}
+                {%  if item["Workers"]|length > 0%}
+                    {{ item["Workers"]}}
+                {% endif %}
+                <hr>
+            {{ '--' * (loop.depth-1) }}
+
+        {%  endif %}
+        {% if item is mapping %}
+            {{ loop(item.items()) }}
+        {% endif %}
+    {% endfor %}
+</hierarch_data>
