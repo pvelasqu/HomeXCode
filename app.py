@@ -96,15 +96,15 @@ def get_workers_to_activity(cursor):
 def get_json_data():
     """
     Executes the logic to getting the JSON data in a hierarchical data
-    :return: JSON dump of the data
+    :return: dict dump of the data
     """
     cursor = db.cursor()
     activity_to_id_dict = get_activity_to_id(cursor)
     hierarchy_query = "SELECT id, parent_activity_id FROM activities where parent_activity_id is not NULL"
     cursor.execute(hierarchy_query)
     hierarchy_results = cursor.fetchall()
-    hierarchy_json_dump = make_hierarchy_dict(hierarchy_results, activity_to_id_dict, get_workers_to_activity(cursor))
-    return hierarchy_json_dump
+    hierarchy_dict = make_hierarchy_dict(hierarchy_results, activity_to_id_dict, get_workers_to_activity(cursor))
+    return hierarchy_dict
 
 
 @app.route('/')
