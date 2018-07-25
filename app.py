@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 import pymysql
 import json
-from pprint import pprint
 import yaml
+import requests
 
 
 with open("config.yaml", 'r') as config_file:
@@ -63,8 +63,13 @@ def make_hierarchy_dict(list_child_parent, activity_to_id_rel, workers_to_activi
     for key, value in all_items.items():
         if key not in has_parent:
             result[key] = value
-    pprint(result)
     return result
+
+
+def request_workers(person_id):
+    request_string = 'http://interview.homex.io/api/people/{id}'.format(id=person_id)
+    worker_name = requests.get(request_string).json()['name']
+    return worker_name
 
 
 def get_workers_to_activity(cursor):
@@ -86,9 +91,9 @@ def get_workers_to_activity(cursor):
 
     for activity, worker in workers_to_activity_result:
         if str(activity) in workers_activity_dict:
-            workers_activity_dict[str(activity)] = workers_activity_dict[str(activity)] + [str(worker)]
+            workers_activity_dict[str(activity)] = workers_activity_dict[str(activity)] + [request_workers(str(worker))]
         else:
-            workers_activity_dict[str(activity)] = [str(worker)]
+            workers_activity_dict[str(activity)] = [request_workers(str(worker))]
 
     return workers_activity_dict
 
@@ -109,12 +114,15 @@ def get_json_data():
 
 @app.route('/')
 def render_home():
-    return render_template('index.html', result=get_json_data())
+    result = get_json_data()
+    return render_template('index.html', result=result)
 
 
 @app.route('/json')
 def return_hierarchy_json():
-    return json.dumps(get_json_data())
+    result = get_json_data()
+    print(json.dumps(result, sort_keys=False, indent=4, separators=(',', ': ')))
+    return json.dumps(result)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,47 @@
+Hello, Welcome to my solution to the HomeX Problem!
+
+Here are a couple of instructions to be able to run this and how to see the output :).
+
+Firstly, ensure your environment is Python3 and you have pip install working.
+
+Secondly, install all of the requirements in this project in the requirements.txt, a simple way to do this is the command:
+
+pip install -r requirements.txt
+
+Secondly, ensure that you have the MySQL 5.7 Database up and running! Then you can modify the config.yaml to ensure that
+the proper connection details are there, such as password. (I know I don't handle password encryption in this, but I figured
+for a coding challenge that is not required)
+
+Now we can actual run the API!
+
+python app.py
+
+This will kick off the Python application which is a Flask API. I have added two routes to this API and will explain
+both below.
+
+By default the API will be hosted on localhost:
+
+http://127.0.0.1:5000/
+
+so I have two routes
+http://127.0.0.1:5000/
+
+This route will attempt to return the data, but I was having some problem with depth first vs breadth first giving me
+some problems with the hierarchy of data. But fear not! The proper solution will still be printed onto the console every
+time you hit the API in proper hierarchical format.
+
+Second route is
+http://127.0.0.1:5000/json
+
+This route will return the data in JSON format as a json dump for queryable data. I believe this was a stretch-goal as well
+as hosting an API, but I figured it would be a good demonstration of my ability.
+
+Thanks for the challenge, it was a lot of fun and refresher on Flask as well as templating. Sorry I was not able to get the
+nodes and collapsible nodes, but I'm sure with a bit more time and one or two more PRs I would have it.
+
+Thank you,
+Pablo
+
+p.s I have attached some screenshots in this zip which have screenshots of the utility, and they will also be hosted on my git
+at:
+https://github.com/pvelasqu/HomeXCode
